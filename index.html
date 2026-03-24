@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TAKE A BREAK PLAYING GAMES</title>
+<title>ULTRA SIGMA V2</title>
 
 <style>
 * {
@@ -34,7 +34,410 @@ nav {
     position: fixed;
     top: 0;
     width: 100%;
+    height: 60px;
     background: rgba(2, 6, 23, 0.7);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* LINKS */
+.nav-links {
+    display: flex;
+    gap: 10px;
+}
+
+nav a {
+    color: #e2e8f0;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ACTIVE SLIDER (DESKTOP ONLY) */
+.nav-slider {
+    position: absolute;
+    bottom: 5px;
+    height: 35px;
+    background: #22c55e;
+    border-radius: 10px;
+    transition: all 0.4s ease;
+    z-index: -1;
+}
+
+/* HAMBURGER */
+.hamburger {
+    display: none;
+    position: absolute;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #22c55e;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: rgba(2, 6, 23, 0.95);
+        display: none;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    nav a {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .nav-slider {
+        display: none;
+    }
+}
+
+/* SECTIONS */
+section {
+    min-height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 20px;
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+    pointer-events: none;
+    transition: all 0.7s ease;
+}
+
+section.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    z-index: 10;
+}
+
+/* SPLIT */
+.split {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.split-text {
+    max-width: 520px;
+}
+
+.split-text h1,
+.split-text h2 {
+    color: #22c55e;
+}
+
+.split-text p,
+.split-text ul {
+    background: rgba(30, 41, 59, 0.8);
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.split-img {
+    width: 280px;
+    border-radius: 15px;
+}
+
+/* DEV */
+.dev-container {
+    display: grid;
+    gap: 10px;
+}
+
+.dev-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(30,41,59,0.8);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.dev-card img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+/* POSTER */
+.poster-container {
+    width: 320px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.poster-container img {
+    width: 100%;
+}
+
+/* ===================== */
+/* HELP SECTION FIX ONLY */
+/* ===================== */
+
+#help .split-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+#help form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 420px;
+    margin-top: 15px;
+}
+
+#help input,
+#help textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(34, 197, 94, 0.4);
+    border-radius: 10px;
+    background: rgba(30, 41, 59, 0.9);
+    color: #e2e8f0;
+    outline: none;
+}
+
+#help textarea {
+    min-height: 120px;
+    resize: none;
+}
+
+#help button {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #22c55e;
+    color: #0b1220;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#help button:hover {
+    background: #16a34a;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<nav>
+    <div class="hamburger" id="hamburger">☰</div>
+    <div class="nav-slider" id="slider"></div>
+
+    <div class="nav-links" id="navLinks">
+        <a data-target="about">About</a>
+        <a data-target="symptoms">Symptoms</a>
+        <a data-target="effects">Effects</a>
+        <a data-target="prevention">Prevention</a>
+        <a data-target="help">Help</a>
+        <a data-target="poster">Poster</a>
+        <a href="d3v.html">Developer</a>
+    </div>
+</nav>
+
+<section id="about" class="active">
+<div class="split">
+<div class="split-text">
+<h1>Online Game Addiction</h1>
+<p>Online game addiction is when a person cannot control the time they spend playing online games. It often makes them play for long hours even when they should be doing other activities. This behavior can affect their studies and responsibilities. Many addicted players ignore sleep and rest just to keep playing. It can also reduce time spent with family and friends. Some people feel stressed or angry when they are not allowed to play. Over time, it may lead to poor health because of lack of exercise and sleep. It can also affect focus and performance in school or work. Online games are designed to be engaging, which can make them hard to stop playing. Managing screen time and setting limits can help prevent this problem.</p>
+</div>
+<img class="split-img" src="received_1450176340229549.jpeg">
+</div>
+</section>
+
+<section id="symptoms">
+<div class="split">
+<img class="split-img" src="637136117_1981524095733852_7505947215888900134_n.jpg.jpeg">
+<div class="split-text">
+<h2>Symptoms</h2>
+<ul>
+<li>Too much gaming</li>
+<li>Ignoring schoolwork</li>
+<li>Anger when not playing</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="effects">
+<div class="split">
+<div class="split-text">
+<h2>Effects</h2>
+<ul>
+<li>Low grades</li>
+<li>Sleep loss</li>
+<li>Less social life</li>
+</ul>
+</div>
+<img class="split-img" src="kumag.jpg">
+</div>
+</section>
+
+<section id="prevention">
+<div class="split">
+<img class="split-img" src="palo.jpg">
+<div class="split-text">
+<h2>Prevention</h2>
+<ul>
+<li>Limit gaming time</li>
+<li>Focus on studies</li>
+<li>Do hobbies</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="help">
+<div class="split">
+<div class="split-text">
+<h2>Help</h2>
+<p>Contact us for support.</p>
+
+<form>
+<input type="text" placeholder="Name" required>
+<input type="email" placeholder="Email" required>
+<textarea placeholder="Message" required></textarea>
+<button type="submit">Send</button>
+</form>
+
+</div>
+</div>
+</section>
+
+<section id="poster">
+<div class="split">
+<div class="split-text">
+<h2>Poster</h2>
+</div>
+<div class="poster-container">
+<img src="1774164890376.jpg">
+</div>
+</div>
+</section>
+
+<section id="developer">
+<div class="split">
+<div class="split-text">
+<h2>Developers</h2>
+<div class="dev-container">
+<div class="dev-card"><img src="Trisha.jpg"> Trisha</div>
+<div class="dev-card"><img src="viray.jpg"> Matthew</div>
+<div class="dev-card"><img src="Tabuan.jpeg"> Jul Rex</div>
+</div>
+</div>
+</div>
+</section>
+
+<script>
+const links = document.querySelectorAll("nav a");
+const sections = document.querySelectorAll("section");
+const slider = document.getElementById("slider");
+const navLinks = document.getElementById("navLinks");
+const hamburger = document.getElementById("hamburger");
+
+function moveSlider(el){
+    if (window.innerWidth <= 768) return;
+    slider.style.width = el.offsetWidth + "px";
+    slider.style.left = el.offsetLeft + "px";
+}
+
+window.onload = () => moveSlider(links[0]);
+
+links.forEach(l=>{
+    l.onclick = () => {
+        sections.forEach(s => s.classList.remove("active"));
+        document.getElementById(l.dataset.target).classList.add("active");
+
+        moveSlider(l);
+        navLinks.classList.remove("active");
+    };
+});
+
+hamburger.onclick = () => {
+    navLinks.classList.toggle("active");
+};
+
+const c=document.getElementById("particles");
+const x=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
+
+let p=[];
+class P{
+constructor(){
+this.x=Math.random()*c.width;
+this.y=Math.random()*c.height;
+this.s=Math.random()*2;
+this.vx=Math.random()*0.5-0.4;
+this.vy=Math.random()*0.5-0.4;
+}
+u(){
+this.x+=this.vx;
+this.y+=this.vy;
+if(this.x>c.width)this.x=0;
+if(this.x<0)this.x=c.width;
+if(this.y>c.height)this.y=0;
+if(this.y<0)this.y=c.height;
+}
+d(){
+x.fillStyle="rgba(34,197,94,0.6)";
+x.beginPath();
+x.arc(this.x,this.y,this.s,0,Math.PI*2);
+x.fill();
+}
+}
+
+for(let i=0;i<80;i++)p.push(new P());
+
+function a(){
+x.clearRect(0,0,c.width,c.height);
+p.forEach(e=>{e.u();e.d();});
+requestAnimationFrame(a);
+}
+a();
+
+window.onresize=()=>{
+c.width=innerWidth;
+c.height=innerHeight;
+moveSlider(links[0]);
+};
+</script>
+
+</body>
+</html>    background: rgba(2, 6, 23, 0.7);
     backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
