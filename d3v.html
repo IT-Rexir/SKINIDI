@@ -59,6 +59,224 @@ body {
     z-index: -1;
 }
 
+/* GALLERY CONTAINER */
+.carousel {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* SIDE BY SIDE LIST */
+.list {
+    display: flex;
+    gap: 25px;
+    padding: 120px 40px 40px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    width: 100%;
+}
+
+/* hide scrollbar */
+.list::-webkit-scrollbar {
+    display: none;
+}
+
+/* ITEM CARD */
+.item {
+    min-width: 260px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(0,255,204,0.3);
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    flex-shrink: 0;
+    transition: 0.3s;
+}
+
+.item:hover {
+    transform: scale(1.05);
+}
+
+/* IMAGE */
+.item img {
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+/* TEXT */
+.topic {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.title {
+    color: #ccc;
+    font-size: 14px;
+}
+
+.des {
+    color: #00ffcc;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* BUTTONS */
+.scroll-btn {
+    position: fixed;
+    bottom: 20px;
+    padding: 10px 15px;
+    border: 1px solid #00ffcc;
+    background: rgba(0,0,0,0.6);
+    color: #00ffcc;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.scroll-btn:hover {
+    background: #00ffcc;
+    color: black;
+}
+
+.left { left: 20px; }
+.right { right: 20px; }
+
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <button class="home-btn" onclick="location.href='index.html'">Home</button>
+    <div class="dev-text">DEVELOPERS</div>
+</div>
+
+<!-- PARTICLES -->
+<canvas id="particles"></canvas>
+
+<!-- GALLERY -->
+<div class="carousel">
+    <div class="list" id="list"></div>
+</div>
+
+
+<script>
+const data = [
+    {img:"orlanes.jpg", name:"Clien Orlanes", role:"Picture Provider"},
+    {img:"Trisha.jpg", name:"Trisha Sajol", role:"Poster Maker"},
+    {img:"sayao.jpg", name:"Dennisse Sayao", role:"Presenter"},
+    {img:"Tabuan.jpeg", name:"Jul Rex Tabuan", role:"Website Maker"},
+    {img:"viray.jpg", name:"Matthew Viray", role:"Picture Provider"},
+    {img:"montero.jpeg", name:"John Rey Montero", role:"Picture Provider"}
+];
+
+const list = document.getElementById("list");
+
+data.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+        <img src="${item.img}">
+        <div class="topic">${item.name}</div>
+        <div class="title">ICT TD-11</div>
+        <div class="des">${item.role}</div>
+    `;
+    list.appendChild(div);
+});
+
+/* SCROLL CONTROL */
+function scrollLeft(){
+    list.scrollBy({ left: -300, behavior: "smooth" });
+}
+
+function scrollRight(){
+    list.scrollBy({ left: 300, behavior: "smooth" });
+}
+</script>
+
+<!-- PARTICLES -->
+<script>
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+let particles = [];
+
+class Particle {
+    constructor(){
+        this.x = Math.random()*canvas.width;
+        this.y = Math.random()*canvas.height;
+        this.size = Math.random()*2+1;
+        this.vx = Math.random()*0.5-0.25;
+        this.vy = Math.random()*0.5-0.25;
+    }
+    update(){
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if(this.x > canvas.width) this.x = 0;
+        if(this.x < 0) this.x = canvas.width;
+        if(this.y > canvas.height) this.y = 0;
+        if(this.y < 0) this.y = canvas.height;
+    }
+    draw(){
+        ctx.fillStyle = "rgba(34,197,94,0.7)";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+for(let i = 0; i < 80; i++) particles.push(new Particle());
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p => {
+        p.update();
+        p.draw();
+    });
+    requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>.home-btn {
+    position: absolute;
+    left: 15px;
+    padding: 6px 12px;
+    border: 1px solid #00ffcc;
+    background: rgba(0,0,0,0.6);
+    color: #00ffcc;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.home-btn:hover {
+    background: #00ffcc;
+    color: black;
+}
+
+/* PARTICLES */
+#particles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
 /* CAROUSEL */
 .carousel {
     width: 100%;
