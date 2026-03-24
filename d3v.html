@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Namnaml</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial;
+    color: white;
+    background: black;
+}
+
+/* TOP BAR */
+.topbar {
+    position: fixed;
+    top: 15px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    z-index: 10;
+}
+
+.dev-text {
+    font-size: 70px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #00ffcc;
+}
+
+.home-btn {
+    position: absolute;
+    left: 15px;
+    padding: 6px 12px;
+    border: 1px solid #00ffcc;
+    background: rgba(0,0,0,0.6);
+    color: #00ffcc;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.home-btn:hover {
+    background: #00ffcc;
+    color: black;
+}
+
+/* PARTICLES */
+#particles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* CAROUSEL */
+.carousel {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* LIST */
+.list {
+    display: flex;
+    height: 100%;
+    transition: transform 0.7s ease;
+}
+
+/* ITEM */
+.item {
+    min-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    opacity: 0.4;
+    transform: scale(0.8);
+    transition: 0.5s;
+}
+
+.item.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* IMAGE */
+.item img {
+    width: 320px;
+    height: 320px;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+/* INTRO (UPDATED - closer to image) */
+.introduce {
+    position: absolute;
+    bottom: 25px; /* closer now */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: 0.5s;
+}
+
+.item.active .introduce {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* TEXT BOX */
+.text-box {
+    text-align: center;
+}
+
+/* NAME ROW */
+.name-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+/* NAME */
+.topic {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* STRAND */
+.title {
+    color: #ccc;
+}
+
+/* ROLE */
+.des {
+    color: #00ffcc;
+}
+
+/* BUTTONS */
+.name-row button {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid #00ffcc;
+    color: #00ffcc;
+    font-size: 16px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.name-row button:hover {
+    background: #00ffcc;
+    color: black;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <button class="home-btn" onclick="location.href='index.html'">Home</button>
+    <div class="dev-text">DEVELOPERS</div>
+</div>
+
+<!-- PARTICLES -->
+<canvas id="particles"></canvas>
+
+<div class="carousel">
+    <div class="list" id="list"></div>
+</div>
+
+<script>
+
+const data = [
+    {img:"images/orlanes.jpg", name:"Clien Orlanes", role:"Picture Provider"},
+    {img:"images/Trisha.jpg", name:"Trisha Sajol", role:"Poster Maker"},
+    {img:"images/sayao.jpg", name:"Dennisse Sayao", role:"Presenter"},
+    {img:"images/Tabuan.jpeg", name:"Jul Rex Tabuan", role:"Website Maker"},
+    {img:"images/viray.jpg", name:"Matthew Viray", role:"Picture Provider"}
+];
+
+const list = document.getElementById("list");
+
+let slides = [
+    data[data.length - 1],
+    ...data,
+    data[0]
+];
+
+slides.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+        <img src="${item.img}">
+
+        <div class="introduce">
+            <div class="text-box">
+
+                <div class="name-row">
+                    <button onclick="prev()">◀</button>
+                    <div class="topic">${item.name}</div>
+                    <button onclick="next()">▶</button>
+                </div>
+
+                <div class="title">ICT-STUDENT=11</div>
+                <div class="des">${item.role}</div>
+
+            </div>
+        </div>
+    `;
+    list.appendChild(div);
+});
+
+let index = 1;
+let items = document.querySelectorAll(".item");
+
+list.style.transform = `translateX(-${index * 100}%)`;
+updateActive();
+
+function updateActive(){
+    items.forEach(i => i.classList.remove("active"));
+    items[index].classList.add("active");
+}
+
+function next(){
+    index++;
+    slide();
+}
+
+function prev(){
+    index--;
+    slide();
+}
+
+function slide(){
+    list.style.transition = "transform 0.7s ease";
+    list.style.transform = `translateX(-${index * 100}%)`;
+
+    setTimeout(() => {
+        if(index === slides.length - 1){
+            index = 1;
+            list.style.transition = "none";
+            list.style.transform = `translateX(-${index * 100}%)`;
+        }
+
+        if(index === 0){
+            index = slides.length - 2;
+            list.style.transition = "none";
+            list.style.transform = `translateX(-${index * 100}%)`;
+        }
+
+        updateActive();
+    }, 700);
+}
+</script>
+
+<!-- PARTICLES -->
+<script>
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+let particles = [];
+
+class Particle {
+    constructor(){
+        this.x = Math.random()*canvas.width;
+        this.y = Math.random()*canvas.height;
+        this.size = Math.random()*2+1;
+        this.vx = Math.random()*0.5-0.25;
+        this.vy = Math.random()*0.5-0.25;
+    }
+    update(){
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if(this.x > canvas.width) this.x = 0;
+        if(this.x < 0) this.x = canvas.width;
+        if(this.y > canvas.height) this.y = 0;
+        if(this.y < 0) this.y = canvas.height;
+    }
+    draw(){
+        ctx.fillStyle = "rgba(34,197,94,0.7)";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+for(let i = 0; i < 80; i++) particles.push(new Particle());
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p => {
+        p.update();
+        p.draw();
+    });
+    requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>
